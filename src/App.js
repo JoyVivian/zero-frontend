@@ -43,17 +43,38 @@ function App() {
         <label>First Name:
           <input type="text"
                  value={firstName}
-                 onChange={(e) => setFirstName(e.target.value)}/>
+                 placeholder="Only letters allowed"
+                 onChange={(e) => {
+                   let value = e.target.value
+
+                   value = value.replace(/[^A-Za-z]/ig, '')
+
+                   setFirstName(value)
+                 }
+                 }/>
         </label>
         <label>Last Name:
           <input type="text"
                  value={lastName}
-          onChange={(e) => setLastName(e.target.value)}/>
+                 placeholder="Only letters allowed"
+          onChange={(e) => {
+            let value = e.target.value;
+
+            value = value.replace(/[^A-Za-z]/ig, '');
+
+            setLastName(value);
+          }}/>
         </label>
         <label>Zipcode:
           <input type="text"
                  value={zipCode}
-          onChange={(e) => setZipCode(e.target.value)}/>
+                 placeholder="only numbers allowed"
+          onChange={(e) => {
+            const re = /^[0-9\b]+$/;
+            if (e.target.value === '' || re.test(e.target.value)) {
+              setZipCode(e.target.value)
+            }
+          }}/>
         </label>
         <button type="submit">Submit</button>
 
