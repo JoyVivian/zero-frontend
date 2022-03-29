@@ -8,32 +8,36 @@ function App() {
   const[message, setMessage] = useState("");
 
   let handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      let res = await fetch("http://127.0.0.1:5000/create_phrase", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json;charset=UTF-8",
-        },
-        body: JSON.stringify({
-          firstname: firstName,
-          lastname: lastName,
-          zipcode: zipCode,
-        }),
-      });
+    if (firstName === "" || lastName === "" || zipCode === "") {
+      alert("All fields are required, Please fill them!");
+    } else {
+      e.preventDefault();
+      try {
+        let res = await fetch("https://zipcode-search-backend.herokuapp.com/create_phrase", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+          body: JSON.stringify({
+            firstname: firstName,
+            lastname: lastName,
+            zipcode: zipCode,
+          }),
+        });
 
-      let resJson = await res.json();
-      if (res.status === 200) {
-        setFirstName("");
-        setLastName("");
-        setZipCode("");
-        setMessage(resJson);
-      } else {
-        setMessage("Some error occured");
+        let resJson = await res.json();
+        if (res.status === 200) {
+          setFirstName("");
+          setLastName("");
+          setZipCode("");
+          setMessage(resJson);
+        } else {
+          setMessage("Some error occured");
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
   };
 
